@@ -1,7 +1,6 @@
 package intro.dfs;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.*;
 
 /**
  * 给定一个非负整数数组，a1, a2, ..., an, 和一个目标数，S。现在你有两个符号 + 和 -。对于数组中的任意一个整数，你都可以从 + 或 -中选择一个符号添加在前面。
@@ -32,29 +31,38 @@ import java.util.Deque;
  * 保证返回的最终结果能被 32 位整数存下。
  */
 public class FindTargetSumWays {
-    private int r = 0;
-    private int sum = 0;
+    private static int r = 0;
 
-    /**
-     * TODO
-     * @param nums
-     * @param s
-     * @return
-     */
-    public int findTargetSumWays(int[] nums, int s) {
-        Deque<Integer> stack = new ArrayDeque<>();
-        for (int i = 0; i < nums.length; i++) {
-            int num = nums[i];
-            stack.push(num);
-            sum+= num;
-            if (i == nums.length-1){
-                if (sum == s){
-                    r++;
-                }
-            }else {
-                int num1 = nums[i + 1];
-                findTargetSumWays(nums,)
-            }
-        }
+    //private static List<String> traces = new LinkedList<>();
+
+    public static void main(String[] args) {
+        int[] case1 = new int[]{1};
+        System.out.println(findTargetSumWays(case1,1));
     }
+
+    public static int findTargetSumWays(int[] nums, int s) {
+        r=0;
+        if (nums.length==0) return 0;
+        findTargetSumWays(nums[0],0,nums,s,0);
+        findTargetSumWays(-nums[0],0,nums,s,0);
+        return r;
+    }
+
+    public static void findTargetSumWays(int value,int index,int[] nums, int target,int sum){
+        int sum1 = sum + value;
+        if (index >= nums.length-1){
+            if (sum1 == target){
+                //System.out.println(Arrays.toString(traces.toArray()));
+                r++;
+            }
+            return ;
+        }
+        //traces.add("+");
+        findTargetSumWays(nums[index+1],index+1,nums,target,sum1);
+        //traces.remove(traces.size()-1);
+        //traces.add("-");
+        findTargetSumWays(-nums[index+1],index+1,nums,target,sum1);
+        //traces.remove(traces.size()-1);
+    }
+
 }
